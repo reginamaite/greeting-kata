@@ -10,14 +10,15 @@ class TennisGame {
     getScore() {
         let rightSide
         let leftSide = this.getSideScore(this.score.playerOneScore)
-        if(this.score.playerOneScore == this.score.playerTwoScore){
+        if(this.scoresAreTied()){
             if(this.score.playerOneScore ==3) return "Deuce"
             rightSide = "all"
         }else rightSide = this.getSideScore(this.score.playerTwoScore)
-
-        if(this.score.playerOneScore>0) return `${leftSide}-${rightSide}`
         return `${leftSide}-${rightSide}`;
     }
+
+    scoresAreTied = () =>this.score.playerOneScore == this.score.playerTwoScore;
+
 
     wonPoint(player) {
         if(player == "playerOne")
