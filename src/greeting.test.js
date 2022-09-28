@@ -9,6 +9,10 @@ class TennisGame {
 
     getScore() {
         let rightSide
+        if(this.score.playerOneScore>=3 && this.score.playerTwoScore>=3){
+            if(this.score.playerTwoScore>this.score.playerOneScore+1) return "Game player2"
+            else if(this.score.playerTwoScore>this.score.playerOneScore) return "Adv-2"
+        }
         let leftSide = this.getSideScore(this.score.playerOneScore)
         if(this.scoresAreTied()){
             if(this.score.playerOneScore ==3) return "Deuce"
@@ -97,4 +101,18 @@ test('When player two scores on 40-30, score is Deuce', () => {
     const game = new TennisGame(scoreRepository);
     game.wonPoint("playerTwo")
     expect(game.getScore()).toBe("Deuce");
+});
+
+test('When player two scores on Deuce, score is Adv-2', () => {
+    const scoreRepository = new ScoreRepository(3,3)
+    const game = new TennisGame(scoreRepository);
+    game.wonPoint("playerTwo")
+    expect(game.getScore()).toBe("Adv-2");
+});
+
+test('When player two scores on Avg-2, score is Game player2', () => {
+    const scoreRepository = new ScoreRepository(3,4)
+    const game = new TennisGame(scoreRepository);
+    game.wonPoint("playerTwo")
+    expect(game.getScore()).toBe("Game player2");
 });
