@@ -82,3 +82,10 @@ test('When player one scores on 30-15, score is 40-15', () => {
     game.wonPoint("playerOne")
     expect(game.getScore()).toBe("40-15");
 });
+
+test('When player two scores on 40-15, score is 40-35', () => {
+    const scoreRepository = new ScoreRepository(3,1)
+    const game = new TennisGame(scoreRepository);
+    game.wonPoint("playerTwo")
+    expect(game.getScore()).toBe("40-30");
+});
