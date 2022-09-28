@@ -13,14 +13,33 @@ class TennisGame {
             if(this.score.playerOneScore >=3) return "Deuce"
             rightSide = "all"
         }else rightSide = this.getSideScore(this.score.playerTwoScore)
-        if(this.score.playerOneScore>=3 && this.score.playerTwoScore>=3){
-            if(this.score.playerTwoScore>this.score.playerOneScore+1) return "Game player2"
-            else if(this.score.playerTwoScore>this.score.playerOneScore) return "Adv-2"
-            else if(this.score.playerOneScore>this.score.playerTwoScore+1) return "Game player1"
-            else return "Adv-1"
+        if(this.bothHaveMoreThan3Points()){
+            return this.getWhoIsWinning();
         }
-        let leftSide = this.getSideScore(this.score.playerOneScore)
-        return `${leftSide}-${rightSide}`;
+        return `${this.getSideScore(this.score.playerOneScore)}-${rightSide}`;
+    }
+
+    getWhoIsWinning() {
+        if (this.playerTwoIsUpByTwoPoints()) return "Game player2"
+        else if (this.playerTwoIsUpByAPoint()) return "Adv-2"
+        else if (this.playerOneIsUpByTwoPoints()) return "Game player1"
+        else return "Adv-1"
+    }
+
+    playerOneIsUpByTwoPoints() {
+        return this.score.playerOneScore > this.score.playerTwoScore + 1;
+    }
+
+    playerTwoIsUpByAPoint() {
+        return this.score.playerTwoScore > this.score.playerOneScore;
+    }
+
+    playerTwoIsUpByTwoPoints() {
+        return this.score.playerTwoScore > this.score.playerOneScore + 1;
+    }
+
+    bothHaveMoreThan3Points() {
+        return this.score.playerOneScore >= 3 && this.score.playerTwoScore >= 3;
     }
 
     scoresAreTied = () =>this.score.playerOneScore == this.score.playerTwoScore;
