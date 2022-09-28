@@ -9,15 +9,17 @@ class TennisGame {
 
     getScore() {
         let rightSide
+        if(this.scoresAreTied()){
+            if(this.score.playerOneScore >=3) return "Deuce"
+            rightSide = "all"
+        }else rightSide = this.getSideScore(this.score.playerTwoScore)
         if(this.score.playerOneScore>=3 && this.score.playerTwoScore>=3){
             if(this.score.playerTwoScore>this.score.playerOneScore+1) return "Game player2"
             else if(this.score.playerTwoScore>this.score.playerOneScore) return "Adv-2"
+            else if(this.score.playerOneScore>this.score.playerTwoScore+1) return "Game player1"
+            else return "Adv-1"
         }
         let leftSide = this.getSideScore(this.score.playerOneScore)
-        if(this.scoresAreTied()){
-            if(this.score.playerOneScore ==3) return "Deuce"
-            rightSide = "all"
-        }else rightSide = this.getSideScore(this.score.playerTwoScore)
         return `${leftSide}-${rightSide}`;
     }
 
@@ -115,4 +117,25 @@ test('When player two scores on Avg-2, score is Game player2', () => {
     const game = new TennisGame(scoreRepository);
     game.wonPoint("playerTwo")
     expect(game.getScore()).toBe("Game player2");
+});
+
+test('When player One scores on Avg-2, score is Deuce', () => {
+    const scoreRepository = new ScoreRepository(3,4)
+    const game = new TennisGame(scoreRepository);
+    game.wonPoint("playerOne")
+    expect(game.getScore()).toBe("Deuce");
+});
+
+test('When player One scores on Deuce, score is Adv-1', () => {
+    const scoreRepository = new ScoreRepository(3,3)
+    const game = new TennisGame(scoreRepository);
+    game.wonPoint("playerOne")
+    expect(game.getScore()).toBe("Adv-1");
+});
+
+test('When player one scores on Avg-1, score is Game player1', () => {
+    const scoreRepository = new ScoreRepository(4,3)
+    const game = new TennisGame(scoreRepository);
+    game.wonPoint("playerOne")
+    expect(game.getScore()).toBe("Game player1");
 });
